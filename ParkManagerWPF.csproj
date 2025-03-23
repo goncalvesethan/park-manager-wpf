@@ -8,4 +8,15 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\notify_icon.png" />
+    <Resource Include="Resources\notify_icon.png" />
+    <None Remove="Resources\notify_icon.ico" />
+    <Resource Include="Resources\notify_icon.ico" />
+  </ItemGroup>
+
 </Project>
