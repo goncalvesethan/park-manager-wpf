@@ -1,0 +1,23 @@
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+
+#Jetbrains
+.idea/
+
+# Build Features
+bin/
+obj/
+
+# DotNet Core Specific
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Logs
+*.log
+
+# Other
+*.DS_Store
