@@ -17,7 +17,7 @@
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Afficher" Click="ShowMainWindow"/>
-                    <MenuItem Header="Synchroniser"/>
+                    <MenuItem Header="Synchroniser" Click="SynchronizeData"/>
                     <Separator/>
                     <MenuItem Header="Se connecter"/>
                     <Separator/>
@@ -100,7 +100,7 @@
                 <Border Grid.Column="2" Background="LightGray" CornerRadius="8" Padding="10" Margin="5">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                         <TextBlock Text="Adresse IP" FontWeight="Bold" FontSize="14" Foreground="DarkSlateGray" TextAlignment="Center" TextWrapping="Wrap"/>
-                        <TextBlock Text="{Binding Device.IPAddress}" FontSize="12" Foreground="Black" TextAlignment="Center" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Device.IpAddress}" FontSize="12" Foreground="Black" TextAlignment="Center" TextWrapping="Wrap"/>
                     </StackPanel>
                 </Border>
 
@@ -108,7 +108,7 @@
                 <Border Grid.Column="3" Background="LightGray" CornerRadius="8" Padding="10" Margin="5">
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                         <TextBlock Text="Adresse MAC" FontWeight="Bold" FontSize="14" Foreground="DarkSlateGray" TextAlignment="Center" TextWrapping="Wrap"/>
-                        <TextBlock Text="{Binding Device.MACAddress}" FontSize="12" Foreground="Black" TextAlignment="Center" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Device.MacAddress}" FontSize="12" Foreground="Black" TextAlignment="Center" TextWrapping="Wrap"/>
                     </StackPanel>
                 </Border>
             </Grid>
