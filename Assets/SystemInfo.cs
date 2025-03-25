@@ -18,8 +18,8 @@ namespace ParkManagerWPF.Assets
             device.Processor = GetProcessor();
             device.RAM = GetRAM();
             device.Storage = GetStorage();
-            device.MACAddress = GetMACAddress();
-            device.IPAddress = GetIPAddress();
+            device.MacAddress = GetMACAddress();
+            device.IpAddress = GetIPAddress();
 
             return device;
         }

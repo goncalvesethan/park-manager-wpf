@@ -12,8 +12,8 @@ namespace ParkManagerWPF.Models
         public string Processor { get; set; }
         public long RAM { get; set; }
         public long Storage { get; set; }
-        public string MACAddress { get; set; }
-        public string IPAddress { get; set; }
+        public string MacAddress { get; set; }
+        public string IpAddress { get; set; }
         public int ParkId { get; set; }
         public int RoomId { get; set; }
     }
