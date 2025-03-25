@@ -18,6 +18,8 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Security.Cryptography.Pkcs;
+using System.Windows.Threading;
 
 namespace ParkManagerWPF;
 
@@ -29,6 +31,7 @@ public partial class MainWindow : Window
     public Device Device { get; set; }
 
     private readonly HttpClient _httpClient;
+    private DispatcherTimer _timer;
 
     public MainWindow()
     {
@@ -39,6 +42,7 @@ public partial class MainWindow : Window
 
         Device = DeviceInformations.GetDeviceInfo();
         this.DataContext = this;
+        SyncDataTask();
     }
     private void StartUpParams()
     {
@@ -90,5 +94,15 @@ public partial class MainWindow : Window
     private async void SynchronizeData(object sender, RoutedEventArgs e)
     {
         await SubmitDataAsync(Device);
+    }
+
+    private void SyncDataTask()
+    {
+        _timer = new DispatcherTimer();
+        _timer.Interval = TimeSpan.FromMinutes(5);
+        _timer.Tick += async (sender, e) => await SubmitDataAsync(Device);
+        _timer.Start();
+
+        _ = SubmitDataAsync(Device);
     }
 }
