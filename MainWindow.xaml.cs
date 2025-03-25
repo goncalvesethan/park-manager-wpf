@@ -37,6 +37,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         StartUpParams();
+        SetAuthButtonLabel();
 
         _httpClient = new HttpClient();
 
@@ -83,12 +84,37 @@ public partial class MainWindow : Window
         try
         {
             HttpResponseMessage response = await _httpClient.PutAsync(apiUrl, content);
-            WindowsNotification.make(3000, "Gestion du parc", "Les informations sur le poste ont bien été remontées.");
+            WindowsNotification.make(3000, "Les informations sur le poste ont bien été remontées.", ToolTipIcon.Info);
         }
         catch (Exception ex)
         {
             System.Windows.MessageBox.Show($"Une erreur s'est produite : {ex.Message}");
         }
+    }
+
+    public void SetAuthButtonLabel()
+    {
+        if (AuthenticationManager.IsUserLoggedIn())
+        {
+            LoginButton.Header = "Déconnexion";
+        }
+        else
+        {
+            LoginButton.Header = "Connexion";
+        }
+    }
+    private void AuthenticationButtonAction(object sender, RoutedEventArgs e)
+    {
+        if (AuthenticationManager.IsUserLoggedIn())
+        {
+            AuthenticationManager.Logout();
+        }
+        else
+        {
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.ShowDialog();
+        }
+        SetAuthButtonLabel();
     }
 
     private async void SynchronizeData(object sender, RoutedEventArgs e)
@@ -105,4 +131,5 @@ public partial class MainWindow : Window
 
         _ = SubmitDataAsync(Device);
     }
+
 }

@@ -19,7 +19,7 @@
                     <MenuItem Header="Afficher" Click="ShowMainWindow"/>
                     <MenuItem Header="Synchroniser" Click="SynchronizeData"/>
                     <Separator/>
-                    <MenuItem Header="Se connecter"/>
+                    <MenuItem x:Name="LoginButton" Click="AuthenticationButtonAction"/>
                     <Separator/>
                     <MenuItem Header="Quitter" Click="ExitApplication"/>
                 </ContextMenu>
