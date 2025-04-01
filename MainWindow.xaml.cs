@@ -38,6 +38,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         StartUpParams();
         SetAuthButtonLabel();
+        System.Windows.Application.Current.Exit += OnAppExit;
 
         _httpClient = new HttpClient();
 
@@ -54,6 +55,12 @@ public partial class MainWindow : Window
         this.Closing += OnClosing;
         this.Hide();
         this.WindowState = WindowState.Minimized;
+    }
+
+    private void OnAppExit(object sender, ExitEventArgs e)
+    {
+        Debug.WriteLine("Déconnexion automatique à la fermeture de l'application.");
+        AuthenticationManager.Logout();
     }
 
     private void ShowMainWindow(object sender, RoutedEventArgs e)
