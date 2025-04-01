@@ -65,7 +65,9 @@ public partial class MainWindow : Window
     private void OnAppExit(object sender, ExitEventArgs e)
     {
         Debug.WriteLine("Déconnexion automatique à la fermeture de l'application.");
+        SendExitEventAsync();
         AuthenticationManager.Logout();
+
     }
 
     private void ShowMainWindow(object sender, RoutedEventArgs e)
@@ -83,6 +85,18 @@ public partial class MainWindow : Window
     private void ExitApplication(object sender, EventArgs e)
     {
         System.Windows.Application.Current.Shutdown();
+    }
+
+    private async void SendExitEventAsync()
+    {
+        try
+        {
+            await _httpClient.PatchAsync($"http://localhost:5296/api/devices/mac/{Device.MacAddress}/offline", null);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"💥 Erreur lors de l'appel PATCH offline : {ex.Message}");
+        }
     }
 
     private async Task SubmitDataAsync(object data)
