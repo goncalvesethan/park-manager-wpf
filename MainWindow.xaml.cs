@@ -20,6 +20,9 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.Security.Cryptography.Pkcs;
 using System.Windows.Threading;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using Newtonsoft.Json.Bson;
 
 namespace ParkManagerWPF;
 
@@ -31,19 +34,22 @@ public partial class MainWindow : Window
     public Device Device { get; set; }
 
     private readonly HttpClient _httpClient;
-    private DispatcherTimer _timer;
+    private DispatcherTimer _syncTimer;
+    private DispatcherTimer _actionTimer;
 
     public MainWindow()
     {
         InitializeComponent();
         StartUpParams();
         SetAuthButtonLabel();
+        System.Windows.Application.Current.Exit += OnAppExit;
 
         _httpClient = new HttpClient();
 
         Device = DeviceInformations.GetDeviceInfo();
         this.DataContext = this;
         SyncDataTask();
+        SyncActionTask();
     }
     private void StartUpParams()
     {
@@ -54,6 +60,12 @@ public partial class MainWindow : Window
         this.Closing += OnClosing;
         this.Hide();
         this.WindowState = WindowState.Minimized;
+    }
+
+    private void OnAppExit(object sender, ExitEventArgs e)
+    {
+        Debug.WriteLine("Déconnexion automatique à la fermeture de l'application.");
+        AuthenticationManager.Logout();
     }
 
     private void ShowMainWindow(object sender, RoutedEventArgs e)
@@ -92,6 +104,43 @@ public partial class MainWindow : Window
         }
     }
 
+    private async Task CheckPendingActionAsync(Device device)
+    {
+        try
+        {
+            string url = $"http://localhost:5296/api/actions/mac/{device.MacAddress}";
+
+            var action = await _httpClient.GetFromJsonAsync<Models.Action>(url);
+
+            if (action != null)
+            {
+                WindowsNotification.make(3000, $"Action détectée : {action.Type}", ToolTipIcon.Info);
+
+                await _httpClient.PatchAsync(url, null);
+
+                switch (action.Type.ToLower())
+                {
+                    case "lock":
+                        ExecuteAction.Lock();
+                        break;
+                    case "reboot":
+                        ExecuteAction.Reboot();
+                        break;
+                    case "shutdown":
+                        ExecuteAction.Shutdown();
+                        break;
+                }
+            } else
+            {
+                Debug.WriteLine("Aucune action détecté pour ce poste");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Erreur lors de la vérification des actions : {ex.Message}");
+        }
+    }
+
     public void SetAuthButtonLabel()
     {
         if (AuthenticationManager.IsUserLoggedIn())
@@ -124,12 +173,22 @@ public partial class MainWindow : Window
 
     private void SyncDataTask()
     {
-        _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromMinutes(5);
-        _timer.Tick += async (sender, e) => await SubmitDataAsync(Device);
-        _timer.Start();
+        _syncTimer = new DispatcherTimer();
+        _syncTimer.Interval = TimeSpan.FromMinutes(5);
+        _syncTimer.Tick += async (sender, e) => await SubmitDataAsync(Device);
+        _syncTimer.Start();
 
         _ = SubmitDataAsync(Device);
+    }
+
+    private void SyncActionTask()
+    {
+        _actionTimer = new DispatcherTimer();
+        _actionTimer.Interval = TimeSpan.FromMinutes(1);
+        _actionTimer.Tick += async (sender, e) => await CheckPendingActionAsync(Device);
+        _actionTimer.Start();
+
+        _ = CheckPendingActionAsync(Device);
     }
 
 }
