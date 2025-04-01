@@ -6,6 +6,8 @@ using System.Net.NetworkInformation;
 using System.Management;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Reflection.PortableExecutable;
 
 namespace ParkManagerWPF.Assets
 {
@@ -14,6 +16,7 @@ namespace ParkManagerWPF.Assets
         public static Device GetDeviceInfo()
         {
             Device device = new Device();
+            device.Name = GetName();
             device.Brand = GetBrand();
             device.Processor = GetProcessor();
             device.RAM = GetRAM();
@@ -107,6 +110,11 @@ namespace ParkManagerWPF.Assets
                 }
             }
             return ip;
+        }
+
+        private static string GetName()
+        {
+            return Environment.MachineName;
         }
     }
 }
