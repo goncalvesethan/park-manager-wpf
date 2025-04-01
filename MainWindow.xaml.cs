@@ -54,8 +54,8 @@ public partial class MainWindow : Window
     private void StartUpParams()
     {
         this.Title = "Gestion du parc";
-        this.Height = 700;
-        this.Width = 1100;
+        this.Height = 800;
+        this.Width = 500;
 
         this.Closing += OnClosing;
         this.Hide();
