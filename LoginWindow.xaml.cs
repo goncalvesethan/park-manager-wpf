@@ -35,6 +35,8 @@ namespace ParkManagerWPF
 
         private void CloseWindow()
         {
+            var listDevicesWindow = new ListDevicesWindow();
+            listDevicesWindow.Show();
             this.Close();
         }
     }
