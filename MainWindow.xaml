@@ -5,8 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ParkManagerWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Resources/notify_icon.ico">
     <Grid>
+        <tb:TaskbarIcon x:Name="myNotifyIcon"
+                    Visibility="Visible"
+                    IconSource="/Resources/notify_icon.ico"
+                    ToolTipText="ParkManager"
+                    MenuActivation="RightClick">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Afficher" Click="ShowMainWindow"/>
+                    <MenuItem Header="Synchroniser" Click="SynchronizeData"/>
+                    <Separator/>
+                    <MenuItem x:Name="LoginButton" Click="AuthenticationButtonAction"/>
+                    <Separator/>
+                    <MenuItem Header="Quitter" Click="ExitApplication"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20" VerticalAlignment="Top" HorizontalAlignment="Stretch">
 
+                <Border Background="LightGray" CornerRadius="8" Padding="10" Margin="0 5">
+                    <StackPanel>
+                        <TextBlock FontSize="15" Text="Nom" FontWeight="Bold" Foreground="DarkSlateGray"/>
+                        <TextBlock FontSize="15" Text="{Binding Device.Name}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+                
+                <Border Background="LightGray" CornerRadius="8" Padding="10" Margin="0 5">
+                    <StackPanel>
+                        <TextBlock FontSize="15" Text="Marque" FontWeight="Bold" Foreground="DarkSlateGray"/>
+                        <TextBlock FontSize="15" Text="{Binding Device.Brand}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="LightGray" CornerRadius="8" Padding="10" Margin="0 5">
+                    <StackPanel>
+                        <TextBlock FontSize="15" Text="Processeur" FontWeight="Bold" Foreground="DarkSlateGray"/>
+                        <TextBlock FontSize="15" Text="{Binding Device.Processor}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="LightGray" CornerRadius="8" Padding="10" Margin="0 5">
+                    <StackPanel>
+                        <TextBlock FontSize="15" Text="RAM (Mo)" FontWeight="Bold" Foreground="DarkSlateGray"/>
+                        <TextBlock FontSize="15" Text="{Binding Device.RAM}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="LightGray" CornerRadius="8" Padding="10" Margin="0 5">
+                    <StackPanel>
+                        <TextBlock FontSize="15" Text="Stockage (Go)" FontWeight="Bold" Foreground="DarkSlateGray"/>
+                        <TextBlock FontSize="15" Text="{Binding Device.Storage}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="LightGray" CornerRadius="8" Padding="10" Margin="0 5">
+                    <StackPanel>
+                        <TextBlock FontSize="15" Text="Adresse IP" FontWeight="Bold" Foreground="DarkSlateGray"/>
+                        <TextBlock FontSize="15" Text="{Binding Device.IpAddress}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="LightGray" CornerRadius="8" Padding="10" Margin="0 5">
+                    <StackPanel>
+                        <TextBlock FontSize="15" Text="Adresse MAC" FontWeight="Bold" Foreground="DarkSlateGray"/>
+                        <TextBlock FontSize="15" Text="{Binding Device.MacAddress}" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

@@ -1,0 +1,54 @@
+﻿<Window x:Class="ParkManagerWPF.ListDevicesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ParkManagerWPF"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Closed="Window_Closed">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0 0 0 10">
+            <Button Content="Actualiser" Click="RefreshButton" Padding="8,4" />
+        </StackPanel>
+
+        <DataGrid x:Name="DevicesDataGrid"
+              Grid.Row="1"
+              AutoGenerateColumns="False"
+              HeadersVisibility="Column"
+              CanUserAddRows="False"
+              IsReadOnly="True"
+              SelectionMode="Single"
+              PreviewMouseRightButtonDown="DevicesDataGrid_RightClick">
+
+            <DataGrid.Resources>
+                <ContextMenu x:Key="RowContextMenu">
+                    <MenuItem Header="Verrouiller" Click="LockDevice" />
+                    <MenuItem Header="Redémarrer" Click="RebootDevice" />
+                    <MenuItem Header="Éteindre" Click="ShutdownDevice" />
+                </ContextMenu>
+
+                <Style TargetType="DataGridRow">
+                    <Setter Property="ContextMenu" Value="{StaticResource RowContextMenu}" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Parc" Binding="{Binding Park.Name}" Width="*"/>
+                <DataGridTextColumn Header="Salle" Binding="{Binding Room.Name}" Width="*"/>
+                <DataGridTextColumn Header="Nom" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn Header="Marque" Binding="{Binding Brand}" Width="*"/>
+                <DataGridTextColumn Header="Processeur" Binding="{Binding Processor}" Width="*"/>
+                <DataGridTextColumn Header="RAM (Mo)" Binding="{Binding RAM}" Width="*"/>
+                <DataGridTextColumn Header="Stockage (Go)" Binding="{Binding Storage}" Width="*"/>
+                <DataGridTextColumn Header="MAC" Binding="{Binding MacAddress}" Width="*"/>
+                <DataGridTextColumn Header="IP" Binding="{Binding IpAddress}" Width="*"/>
+                <DataGridTextColumn Header="En ligne" Binding="{Binding OnlineLabel}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
